@@ -1,0 +1,4 @@
+1. Go into moodbee directory
+2. env/Scripts/activate
+3. You may have to source
+    source env/Scripts/activate
