@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}How it works{% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Green Theme Website</title>
+    <style>
+        body {
+            background-color: #e8f5e9;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .header {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin: 0;
+        }
+        
+        .content {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .button {
+            background-color: #4caf50;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            transition-duration: 0.4s;
+        }
+        
+        .button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Green Theme Website</h1>
+    </header>
+    <div class="content">
+        <h2>Welcome to the Green Theme Website!</h2>
+        <p>This is a sample website demonstrating a green theme using HTML, CSS, and JavaScript.</p>
+        <button class="button">Click Me</button>
+    </div>
+    <script>
+        var button = document.querySelector('.button');
+        button.addEventListener('click', function() {
+            alert('Button clicked!');
+        });
+    </script>
+</body>
+</html>
+
+
+{% endblock %}
+

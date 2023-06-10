@@ -22,5 +22,9 @@ def contactus():
 def howitworks():
     return render_template('How_it_works.html')
 
+@app.route('/testingpage')
+def testingPage():
+    return render_template('testingPage.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
