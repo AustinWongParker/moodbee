@@ -1,4 +1,16 @@
+** NOTE: Each virtual environment should be machine-specific. Do not commit / push to github **
+How to get virtualenv going the first time on new machine
 1. Go into moodbee directory
-2. env/Scripts/activate
+2. pip install virtualenv
+3. virtualenv venv 
+4. Continue below to activate
+
+
+How to Activate - when you have virtual env installed via pip
+1. Go into moodbee directory
+2. (v)env/Scripts/activate
 3. You may have to source
-    source env/Scripts/activate
+    source (v)env/Scripts/activate
+
+How do you know it's working?
+1. You should see venv or env (depending on what you chose) in your terminal - I use git bash on windows machine
