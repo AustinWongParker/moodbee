@@ -4,9 +4,27 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>{% block title %}{% endblock %}</title>
     <style>
-        .navbar-nav .nav-link {
-            margin-right: 15px;
-        }
+    .navbar-right {
+        float: right;
+    }
+
+    .navbar-right a {
+        color: #000000;
+        text-decoration: none;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        background-color: #ffff36;
+    }
+
+    .navbar-right a.active {
+        background-color: #ffff36;
+    }
+
+    .navbar-right a:hover {
+        background-color: #c6c653;
+    }
+
     </style>
 </head>
 <body>
@@ -33,6 +51,10 @@
                     <a class="nav-link" href="/testingpage">Testing Page</a>
                 </li>
             </ul>
+        </div>
+        <div class="navbar-right">
+            <a href="#" class="active">Log In</a>
+            <a href="#">Sign Up</a>
         </div>
     </nav>
     {% block content %}
