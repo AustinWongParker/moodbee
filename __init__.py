@@ -10,6 +10,10 @@ def hello_world():
 def home():
     return render_template('home.html')
 
+@app.route('/track')
+def track():
+    return render_template('track.html')
+
 @app.route('/about')
 def about():
     return render_template('About.html')
