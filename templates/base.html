@@ -25,41 +25,53 @@
         background-color: #c6c653;
     }
 
+    .navbar .navbar-nav .nav-link {
+        color: #f4f4f5; /* Set the text color */
+    }
+
+    .btn-signup {
+        display: inline-block;
+        padding: 10px 30px;
+        border-radius: 50px;
+        background-color: #f1c32e;
+        color: #1c1b1a;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <img class="navbar-brand" href="#" src="/static/Moodbee_Logo-01.png " style="width:60px;height:60px;"></img>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/track">Track</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/about">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/how-it-works">How it works</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/contactus">Contact Us</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/testingpage">Testing Page</a>
-                </li>
-            </ul>
+    <nav class="navbar navbar-expand-sm fixed-top navbar-light">
+        <div class="container-fluid"> <!-- Use container-fluid to extend the navbar to the ends of the screen -->
+            <img src="static\Moodbee_Logo-01.png" alt="moodbee_logo" style="width: 4em; height: 4em" />
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar1">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbar1">
+                <ul class="navbar-nav mr-auto"> <!-- Use mr-auto to push the nav items to the left -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Track</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">How it Works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact Us</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="btn-signup" href="#">Log-in</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div class="navbar-right">
-            <a href="#" class="active">Log In</a>
-            <a href="#">Sign Up</a>
-        </div>
-    </nav>
+    </nav>    
     {% block content %}
     {% endblock %}
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
