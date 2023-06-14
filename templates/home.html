@@ -1,25 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        {% extends "base.html" %}
-        {% block title %}moodbee{% endblock %}
-        {% block content %}
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="Austin" content="" />
+        {% extends "base.html" %}
+        {% block title %}Contact Us{% endblock %}
+        {% block content %}
         <style>
-             body {
-                background-color: #545441;
-            }
-            #bee-image {
-                display: block;
-                margin: 0 auto;
-                margin-bottom: -450px;
-                margin-top: 350px;
+            .btn.btn-primary.btn-xl {
+                background-color: #f1c32e !important; /* Replace #ff0000 with your desired color */
+                color: #1c1b1a !important; /* Replace #ffffff with the desired text color */
+                border-radius: 50px;
+                font-weight: bold;
             }
         </style>
-        <img id="bee-image" src="/static/bee_small.png" alt="bee">
         <title>moodbee</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
@@ -36,9 +32,8 @@
         <!-- Header-->
         <header class="masthead d-flex align-items-center">
             <div class="container px-4 px-lg-5 text-center">
-                <h1 class="mb-1">moodbee</h1>
-                <h3 class="mb-5"><em>Daily mood tracker - join the bee community!</em></h3>
-                <a class="btn btn-primary btn-xl" href="#about">Let's get started!</a>
+                <img src="static\Moodbee_Logo_2white-alt-02.png" alt="moodbee_logo" />
+                <a class="btn btn-primary btn-xl" href="#about">LET'S GET STARTED!</a>
             </div>
         </header>
         <!-- About-->
@@ -195,6 +190,6 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
+        {% endblock %}
     </body>
-    {% endblock %}
 </html>
