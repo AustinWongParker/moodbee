@@ -1,3 +1,11 @@
+<!-- 
+COLORS
+white | #f4f4f5, 
+yellow 1 | #f1c32e, 
+yellow 2 | #ecb21f, 
+brown | #1c1b1a
+-->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,6 +36,10 @@
     .navbar .navbar-nav .nav-link {
         color: #f4f4f5; /* Set the text color */
     }
+    .navbar-scrolled {
+        background-color: rgba(28, 27, 26, 1);
+
+    }
 
     .btn-signup {
         display: inline-block;
@@ -37,6 +49,10 @@
         color: #1c1b1a;
         text-decoration: none;
         font-weight: bold;
+    }
+
+    .navbar-light {
+        background-color: rgb(51,50,49);
     }
 
 
@@ -72,6 +88,26 @@
             </div>
         </div>
     </nav>    
+    <script>
+        window.addEventListener('scroll', function() {
+            var navbar = document.querySelector('nav.navbar');
+            var masthead = document.querySelector('.masthead');
+            var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            var mastheadBottom = masthead.getBoundingClientRect().bottom;
+            var windowHeight = window.innerHeight;
+            var offsetPercentage = .80; // Adjust the offset percentage as needed
+        
+            // Calculate the offset value based on the percentage of the page height
+            var offset = windowHeight * offsetPercentage;
+    
+            if (scrollTop > mastheadBottom + offset && !navbar.classList.contains('navbar-scrolled')) {
+                navbar.classList.add('navbar-scrolled');
+            } else if (scrollTop <= mastheadBottom + offset) {
+                navbar.classList.remove('navbar-scrolled');
+            }
+        });
+    </script>
+             
     {% block content %}
     {% endblock %}
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
