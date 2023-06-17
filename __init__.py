@@ -18,7 +18,7 @@ def track():
 def about():
     return render_template('About.html')
 
-@app.route('/contactus')
+@app.route('/contact-us')
 def contactus():
     return render_template('ContactUs.html')
 
