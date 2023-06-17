@@ -11,6 +11,7 @@ How to Activate - when you have virtual env installed via pip
 2. (v)env/Scripts/activate
 3. You may have to source
     source (v)env/Scripts/activate
+4. May need to do source env/bin/activate depending on the path.
 
 How do you know it's working?
 1. You should see venv or env (depending on what you chose) in your terminal - I use git bash on windows machine
