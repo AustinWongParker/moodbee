@@ -1,70 +1,89 @@
-{% extends "base.html" %}
-{% block title %}How it works{% endblock %}
-{% block content %}
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Green Theme Website</title>
-    <style>
-        body {
-            background-color: #e8f5e9;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        
-        .header {
-            background-color: #4caf50;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-        }
-        
-        h1 {
-            font-size: 28px;
-            margin: 0;
-        }
-        
-        .content {
-            padding: 20px;
-            text-align: center;
-        }
-        
-        .button {
-            background-color: #4caf50;
-            border: none;
-            color: #fff;
-            cursor: pointer;
-            font-size: 16px;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            transition-duration: 0.4s;
-        }
-        
-        .button:hover {
-            background-color: #45a049;
-        }
-    </style>
-</head>
-<body>
-    <header class="header">
-        <h1>Green Theme Website</h1>
-    </header>
-    <div class="content">
-        <h2>Welcome to the Green Theme Website!</h2>
-        <p>This is a sample website demonstrating a green theme using HTML, CSS, and JavaScript.</p>
-        <button class="button">Click Me</button>
+<html lang="en">
+    <head>
+        <style>
+            .image-container {
+                display: flex;
+                justify-content: space-between;
+            }
+    
+            .image-container img {
+                width: 150px; /* Adjust the width as needed */
+                height: 150px; /* Adjust the height as needed */
+                cursor: pointer;
+            }
+            .mt-custom {
+            margin-top: 6rem; /* Adjust the value to your desired margin (e.g., 6rem, 10rem, etc.) */
+            }
+            .selected-image-border {
+            border: 3px solid red; /* Customize the border color and size as desired */
+            }
+        </style>
+    </head>
+    <body>
+    <div class="mt-custom">
+        <div class="image-container d-flex justify-content-around">
+            <!-- Image 1 -->
+            <a href="#" class="select-image" data-image="mad1.png">
+                <img src="/static/mad1.png" alt="mad" class="img-fluid">
+            </a>
+
+            <!-- Image 2 -->
+            <a href="#" class="select-image" data-image="upset2.png">
+                <img src="/static/upset2.png" alt="upset" class="img-fluid">
+            </a>
+
+            <!-- Image 3 -->
+            <a href="#" class="select-image" data-image="neutral3.png">
+                <img src="/static/neutral3.png" alt="neutral" class="img-fluid">
+            </a>
+
+            <!-- Image 4 -->
+            <a href="#" class="select-image" data-image="happy4.png">
+                <img src="/static/happy4.png" alt="happy" class="img-fluid">
+            </a>
+
+            <!-- Image 5 -->
+            <a href="#" class="select-image" data-image="great5.png">
+                <img src="/static/great5.png" alt="great" class="img-fluid">
+            </a>
+        </div>
     </div>
+
+    <!-- Comment box -->
+    <div class="my-4">
+        <form action="/post-comment" method="POST">
+            <div class="form-group">
+                <label for="comment">Add a Comment:</label>
+                <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <!-- Your scripts and libraries here -->
     <script>
-        var button = document.querySelector('.button');
-        button.addEventListener('click', function() {
-            alert('Button clicked!');
+        // JavaScript code to handle image selection
+        document.querySelectorAll('.select-image').forEach(function(imageLink) {
+            imageLink.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent the link from navigating
+
+                // Get all image links and remove the 'selected-image-border' class
+                var allImageLinks = document.querySelectorAll('.select-image');
+                allImageLinks.forEach(function(link) {
+                    link.classList.remove('selected-image-border');
+                });
+
+                // Get the data-image attribute value
+                var selectedImage = this.getAttribute('data-image');
+
+                // Update the selected image value in the comment box
+                document.getElementById('selected-image').value = selectedImage;
+
+                // Add the 'selected-image-border' class to the clicked image link
+                this.classList.add('selected-image-border');
+            });
         });
     </script>
-</body>
-</html>
-
-
-{% endblock %}
-
+       
+    {% endblock %}
