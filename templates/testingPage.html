@@ -1,89 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <style>
-            .image-container {
-                display: flex;
-                justify-content: space-between;
-            }
-    
-            .image-container img {
-                width: 150px; /* Adjust the width as needed */
-                height: 150px; /* Adjust the height as needed */
-                cursor: pointer;
-            }
-            .mt-custom {
-            margin-top: 6rem; /* Adjust the value to your desired margin (e.g., 6rem, 10rem, etc.) */
-            }
-            .selected-image-border {
-            border: 3px solid red; /* Customize the border color and size as desired */
-            }
-        </style>
-    </head>
-    <body>
-    <div class="mt-custom">
-        <div class="image-container d-flex justify-content-around">
-            <!-- Image 1 -->
-            <a href="#" class="select-image" data-image="mad1.png">
-                <img src="/static/mad1.png" alt="mad" class="img-fluid">
-            </a>
-
-            <!-- Image 2 -->
-            <a href="#" class="select-image" data-image="upset2.png">
-                <img src="/static/upset2.png" alt="upset" class="img-fluid">
-            </a>
-
-            <!-- Image 3 -->
-            <a href="#" class="select-image" data-image="neutral3.png">
-                <img src="/static/neutral3.png" alt="neutral" class="img-fluid">
-            </a>
-
-            <!-- Image 4 -->
-            <a href="#" class="select-image" data-image="happy4.png">
-                <img src="/static/happy4.png" alt="happy" class="img-fluid">
-            </a>
-
-            <!-- Image 5 -->
-            <a href="#" class="select-image" data-image="great5.png">
-                <img src="/static/great5.png" alt="great" class="img-fluid">
-            </a>
+<html>
+<head>
+    <title>Display Comment</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Stored Comment and Selected Image:</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Selected Image:</h4>
+                <img src="{{ url_for('static', filename=selected_image) }}" alt="Selected Image" class="img-fluid">
+            </div>
+            <div class="col-md-6">
+                <h4>Comment:</h4>
+                <p>{{ comment }}</p>
+            </div>
         </div>
     </div>
-
-    <!-- Comment box -->
-    <div class="my-4">
-        <form action="/post-comment" method="POST">
-            <div class="form-group">
-                <label for="comment">Add a Comment:</label>
-                <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
-
-    <!-- Your scripts and libraries here -->
-    <script>
-        // JavaScript code to handle image selection
-        document.querySelectorAll('.select-image').forEach(function(imageLink) {
-            imageLink.addEventListener('click', function(event) {
-                event.preventDefault(); // Prevent the link from navigating
-
-                // Get all image links and remove the 'selected-image-border' class
-                var allImageLinks = document.querySelectorAll('.select-image');
-                allImageLinks.forEach(function(link) {
-                    link.classList.remove('selected-image-border');
-                });
-
-                // Get the data-image attribute value
-                var selectedImage = this.getAttribute('data-image');
-
-                // Update the selected image value in the comment box
-                document.getElementById('selected-image').value = selectedImage;
-
-                // Add the 'selected-image-border' class to the clicked image link
-                this.classList.add('selected-image-border');
-            });
-        });
-    </script>
-       
-    {% endblock %}
+</body>
+</html>

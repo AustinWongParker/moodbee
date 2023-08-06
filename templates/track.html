@@ -57,7 +57,7 @@
             <div class="my-4">
                 <form action="/post-comment" method="POST">
                     <div class="form-group">
-                        <label for="selected-image">Selected Image:</label>
+                        <label for="selected_image">Selected Image:</label>
                         <input type="text" class="form-control" id="selected-image" name="selected_image" readonly>
                     </div>
                     <div class="form-group">
@@ -94,16 +94,20 @@
         }
 
         function submitForm() {
-            // Validate if an image has been selected
-            if (selectedImage) {
-                // Update the selected image value in the comment box (optional)
-                document.getElementById('selected-image').value = selectedImage;
+            // Get the values from the form fields
+            var selectedImage = document.getElementById('selected-image').value;
+            var comment = document.getElementById('comment').value;
 
-                // Submit the form (change 'form-id' to your actual form ID if needed)
-                document.getElementById('form-id').submit();
-            } else {
-                alert('Please select an image before submitting.');
-            }
+            // Output the values to the console for demonstration purposes
+            console.log("Selected Image: " + selectedImage);
+            console.log("Comment: " + comment);
+
+            // Set the values in the form fields to be submitted
+            document.getElementById('comment-form').selected_image.value = selectedImage;
+            document.getElementById('comment-form').comment.value = comment;
+
+            // Submit the form
+            document.getElementById('comment-form').submit();
         }
 
         document.querySelectorAll('.select-image').forEach(function(imageLink) {
@@ -113,6 +117,11 @@
             });
         });
     </script>
+        <div class="container mt-5">
+            <h2>Stored Data:</h2>
+            <p>Selected Image: {{ selected_image }}</p>
+            <p>Comment: {{ comment }}</p>
+        </div>
 </body>
 </html>
 
