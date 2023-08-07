@@ -15,3 +15,6 @@ How to Activate - when you have virtual env installed via pip
 
 How do you know it's working?
 1. You should see venv or env (depending on what you chose) in your terminal - I use git bash on windows machine
+
+How do you deactivate environment?
+1. deactivate <-- use this in terminal

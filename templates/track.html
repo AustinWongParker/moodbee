@@ -1,5 +1,128 @@
-{% extends "base.html" %}
-{% block title %}Track{% endblock %}
-{% block content %}
-<h1>TRACKING GOES HERE</h1>
+<!DOCTYPE html>
+<html>
+    {% extends "base.html" %}
+    {% block title %}Track{% endblock %}
+    {% block content %}
+<head>
+    <!-- ... (other head elements) ... -->
+    <style>
+        .selected-image-border {
+            border: 3px solid red; /* Customize the border color and size as desired */
+        }
+        .mt-custom {
+            margin-top: 6rem; /* Adjust the value to your desired margin (e.g., 6rem, 10rem, etc.) */
+        }
+        /* Add margins on both sides of the page */
+        .page-container {
+            margin: 0 100px; /* Adjust the margin values as needed */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="mt-custom">
+            <nav class="navbar navbar-expand-sm fixed-top navbar-light mb-3">
+                <!-- Your navbar content here -->
+            </nav>
+
+            <div class="image-container d-flex justify-content-around">
+                <!-- Image 1 with custom URL (using JavaScript to handle redirection) -->
+                <a href="#" class="select-image" data-image="mad1.png">
+                    <img src="/static/mad1.png" alt="mad" class="img-fluid">
+                </a>
+
+                <!-- Image 2 -->
+                <a href="#" class="select-image" data-image="upset2.png">
+                    <img src="/static/upset2.png" alt="upset" class="img-fluid">
+                </a>
+
+                <!-- Image 3 -->
+                <a href="#" class="select-image" data-image="neutral3.png">
+                    <img src="/static/neutral3.png" alt="neutral" class="img-fluid">
+                </a>
+
+                <!-- Image 4 -->
+                <a href="#" class="select-image" data-image="happy4.png">
+                    <img src="/static/happy4.png" alt="happy" class="img-fluid">
+                </a>
+
+                <!-- Image 5 -->
+                <a href="#" class="select-image" data-image="great5.png">
+                    <img src="/static/great5.png" alt="great" class="img-fluid">
+                </a>
+            </div>
+
+            <!-- Comment box -->
+            <div class="my-4">
+                <form action="/post-comment" method="POST">
+                    <div class="form-group">
+                        <label for="selected_image">Selected Image:</label>
+                        <input type="text" class="form-control" id="selected-image" name="selected_image" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="comment">Add a Comment:</label>
+                        <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="submitForm()">Submit</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Your scripts and libraries here -->
+    <script>
+        // JavaScript code to handle image selection and form submission
+        let selectedImage = null; // Initialize the variable to store the selected image
+
+        function selectImage(imageLink) {
+            // Get all image links and remove the 'selected-image-border' class
+            var allImageLinks = document.querySelectorAll('.select-image');
+            allImageLinks.forEach(function(link) {
+                link.classList.remove('selected-image-border');
+            });
+
+            // Get the data-image attribute value
+            selectedImage = imageLink.getAttribute('data-image');
+
+            // Update the selected image value in the comment box
+            document.getElementById('selected-image').value = selectedImage;
+
+            // Add the 'selected-image-border' class to the clicked image link
+            imageLink.classList.add('selected-image-border');
+        }
+
+        function submitForm() {
+            // Get the values from the form fields
+            var selectedImage = document.getElementById('selected-image').value;
+            var comment = document.getElementById('comment').value;
+
+            // Output the values to the console for demonstration purposes
+            console.log("Selected Image: " + selectedImage);
+            console.log("Comment: " + comment);
+
+            // Set the values in the form fields to be submitted
+            document.getElementById('comment-form').selected_image.value = selectedImage;
+            document.getElementById('comment-form').comment.value = comment;
+
+            // Submit the form
+            document.getElementById('comment-form').submit();
+        }
+
+        document.querySelectorAll('.select-image').forEach(function(imageLink) {
+            imageLink.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent the link from navigating
+                selectImage(this);
+            });
+        });
+    </script>
+        <div class="container mt-5">
+            <h2>Stored Data:</h2>
+            <p>Selected Image: {{ selected_image }}</p>
+            <p>Comment: {{ comment }}</p>
+        </div>
+</body>
+</html>
+
 {% endblock %}
