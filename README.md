@@ -4,6 +4,8 @@
 
 Moodbee is a simplistic site for tracking your mood and seeing how external factors may affect it.
 
+Visit the website: www.moodbee.net
+
 ### Features
 * Track your mood anytime, anyday.
 * Timeline representation and progression of how your mood changed.
