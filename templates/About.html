@@ -1,5 +1,96 @@
 {% extends "base.html" %}
 {% block title %}About Page{% endblock %}
 {% block content %}
-<h1>ABOUT</h1>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            z-index: 1000;
+        }
+
+        .sections-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        section {
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+            margin: 20px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .text {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sections-container">
+
+        <!-- Section 1 -->
+        <section>
+            <img src="static\austinwongparker.png" alt="awp">
+            <div class="text">
+                <h2>Austin Wong-Parker</h2>
+                <p>Dog park enjoyer.</p>
+            </div>
+        </section>
+
+        <!-- Section 2 -->
+        <section>
+            <img src="image2.jpg" alt="Image 2">
+            <div class="text">
+                <h2>Section 2</h2>
+                <p>This is the text for section 2.</p>
+            </div>
+        </section>
+
+        <!-- Section 3 -->
+        <section>
+            <img src="image3.jpg" alt="Image 3">
+            <div class="text">
+                <h2>Section 3</h2>
+                <p>This is the text for section 3.</p>
+            </div>
+        </section>
+
+        <!-- Section 4 -->
+        <section>
+            <img src="image4.jpg" alt="Image 4">
+            <div class="text">
+                <h2>Section 4</h2>
+                <p>This is the text for section 4.</p>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+
+</html>
+
 {% endblock %}
