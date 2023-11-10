@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, redirect, session, request
-from flask_login import LoginManager
+from flask_login import LoginManager, UserMixin
 
 app = Flask(__name__)
 app.secret_key = 'dev'
