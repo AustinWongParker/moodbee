@@ -1,6 +1,7 @@
 1. Activate your virtualenv. Refer to setup_virtualenv.txt
 2. pip install Flask
-3. python __init__.py
+3. pip install flask_login
+4. python __init__.py
 
 1. export FLASK_APP=__init__.py
 2. export FLASK_DEBUG=1
