@@ -1,0 +1,21 @@
+install packages for virtualenv. (should automate this with sh)
+1. Activate your virtualenv. Refer to setup_virtualenv.txt
+2. pip install Flask
+3. pip install flask_login
+4. pip install Flask Flask-SQLAlchemy
+5. python __init__.py
+
+init up database
+1. export FLASK_APP=__init__.py
+2. flask shell
+3. from app import db, User
+4. db.create_all()
+    [When updating the database after tables are already populated
+    you need to db.drop_all(), then db.create_all() for fresh data]
+    If error, check db URI and model declaration
+
+
+init the Website
+1. export FLASK_APP=__init__.py
+2. export FLASK_DEBUG=1
+3. flask run

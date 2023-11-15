@@ -1,8 +1,12 @@
+import os
 from flask import Flask, render_template, url_for, redirect, session, request
-from flask_login import LoginManager, UserMixin
+from flask_login import LoginManager
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.sql import func
 
 app = Flask(__name__)
 app.secret_key = 'dev'
+
 
 class User(UserMixin):
     def __init__(self, name, id, active=True):
@@ -20,12 +24,87 @@ class User(UserMixin):
 
     def is_authenticated(self):
         return True
+    
+
+#willow new addition. sets up DB. 
+# look at the link in the issue 6.
+
+#get current directory
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+#path for our database file. It will appear in the current directory
+app.config['SQLALCHEMY_DATABASE_URI'] =\
+        'sqlite:///' + os.path.join(basedir, 'database.db')
+
+#this turns of tracking of variables. might be necessary later funcs
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+#DB object is what we use to interact with the database
+db = SQLAlchemy(app)
+
+#id just start at 1 and incrm each time a new user joins
+#  or we could do do a unique hashcode from first + last names
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    firstname = db.Column(db.String(100), nullable=False)
+    lastname = db.Column(db.String(100), nullable=False)
+    #username = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(80), unique=True, nullable=False)
+    age = db.Column(db.Integer)
+    created_at = db.Column(db.DateTime(timezone=True),
+                           server_default=func.now())
+    bio = db.Column(db.Text)
+
+    def __repr__(self):
+        return f'<Student {self.firstname}>'
+
+
+
+#inital account creation, 
+# first get with username/email to check for existing user
+# if get fails, post with given info.
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+    
+    #for the post we need to recieve from front end:
+    #  a JSON packet with at least each field as defined in the User table
+    #  additional data is allowed. 
+    # 
+    # Once the data is recieved from front end, adding to the DB looks like
+    '''
+    user_john = User(firstname='john', lastname='doe',
+                       email='jd@hotmail.com', age=23,
+                       bio='no hoes'
+        
+        Notice id is ommited from this entry. Because it is set as the
+        PrimaryKey, SQL will inherently increm and apply the key to new entries.
+
+    '''
+
+    #Now we have the user_john object which represents our data entry
+    #We still need to add the entry to the db session
+    #  db.session.add(student_john)
+
+    # We aren't done yet. To finally push the entires to the db
+    # we need to commit our additions. It works just like git.
+    #   db.session.commit()
+
+    return 0
+
+
+
+
+
+'''
+Routes for the webpage are listed below
+    @Austin give an explanation, u kno betr
+'''
 
 @app.route('/')
 def hello_world():
     return render_template('home.html')
 
-@app.route('/home', methods = ['GET','POST'])
+@app.route('/home')
 def home():
     return render_template('home.html')
 
