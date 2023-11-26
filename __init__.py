@@ -45,19 +45,34 @@ db = SQLAlchemy(app)
 #id just start at 1 and incrm each time a new user joins
 #  or we could do do a unique hashcode from first + last names
 class User(db.Model):
+    __tablename__ = 'User'
+
+    #user metadata
     id = db.Column(db.Integer, primary_key=True)
     firstname = db.Column(db.String(100), nullable=False)
     lastname = db.Column(db.String(100), nullable=False)
-    #username = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(80), unique=True, nullable=False)
     age = db.Column(db.Integer)
     created_at = db.Column(db.DateTime(timezone=True),
                            server_default=func.now())
-    bio = db.Column(db.Text)
+    #mood data
+    totalmoods = db.Column(db.Integer)
+    moods = db.relationship("Mood", back_populates="User")
+
 
     def __repr__(self):
-        return f'<Student {self.firstname}>'
-
+        return f'<{self.firstname, self.lastname}>'
+    
+class Mood(db.Model):
+    __tablename__ = 'Mood'
+    #metadata
+    time = db.Column(db.DateTime(timezone=True), server_default=func.now())
+    
+    #establish a relation with user making the mood
+    user = db.relationship("User", back_populates="Mood")
+    user_id = db.Column(ForeignKey="User.id") #link the tables with a foreign key
+    energy = db.Column(db.String(30)) #High-low Pleasant / High-low Unpleasant
+    emot = db.Column(db.String(50), nullable=False) # word or short description of emotion for the entry
 
 
 #inital account creation, 
@@ -91,8 +106,10 @@ def signup():
 
     return 0
 
-
-
+@app.route('/track')
+def track():
+    #rename this to 'moods' 
+    return render_template('track.html')
 
 
 '''
@@ -108,9 +125,7 @@ def hello_world():
 def home():
     return render_template('home.html')
 
-@app.route('/track')
-def track():
-    return render_template('track.html')
+
 
 @app.route('/about')
 def about():
