@@ -55,10 +55,10 @@
 
             <!-- Comment box -->
             <div class="my-4">
-                <form action="/post-comment" method="POST">
+                <form id="form-id-awp" action="{{ url_for('submit') }}" method="POST">
                     <div class="form-group">
                         <label for="selected_image">Selected Image:</label>
-                        <input type="text" class="form-control" id="selected-image" name="selected_image" readonly>
+                        <input type="text" class="form-control" id="selected-image" name="selected_image">
                     </div>
                     <div class="form-group">
                         <label for="comment">Add a Comment:</label>
@@ -69,7 +69,7 @@
             </div>
 
         </div>
-    </div>
+    </div> 
 
     <!-- Your scripts and libraries here -->
     <script>
@@ -93,22 +93,53 @@
             imageLink.classList.add('selected-image-border');
         }
 
+
+        /*
         function submitForm() {
-            // Get the values from the form fields
-            var selectedImage = document.getElementById('selected-image').value;
-            var comment = document.getElementById('comment').value;
 
-            // Output the values to the console for demonstration purposes
+            var form = document.getElementById("form-id-awp");
+
+            document.getElementById("selected-image").addEventListener("click", function () {
+            form.submit();
+            });
+
+            document.getElementById("comment").addEventListener("click", function () {
+            form.submit();
+            });
+
             console.log("Selected Image: " + selectedImage);
-            console.log("Comment: " + comment);
+            console.log("Comment: " + comment.value);
 
-            // Set the values in the form fields to be submitted
-            document.getElementById('comment-form').selected_image.value = selectedImage;
-            document.getElementById('comment-form').comment.value = comment;
-
-            // Submit the form
-            document.getElementById('comment-form').submit();
         }
+        */
+
+        function submitForm() {
+        // Get the form and comment values
+        var form = document.getElementById('form-id-awp');
+        var comment = document.getElementById('comment').value;
+
+        // Use Fetch API to send the form data to the server
+        fetch('/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ comment: comment }),
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Form submitted successfully');
+                // Optionally, you can redirect or perform other actions on success
+            } else {
+                console.error('Form submission failed');
+            }
+        })
+        .catch(error => {
+            console.error('Error during form submission:', error);
+        });
+    }
+
+
 
         document.querySelectorAll('.select-image').forEach(function(imageLink) {
             imageLink.addEventListener('click', function(event) {
@@ -116,12 +147,8 @@
                 selectImage(this);
             });
         });
+
     </script>
-        <div class="container mt-5">
-            <h2>Stored Data:</h2>
-            <p>Selected Image: {{ selected_image }}</p>
-            <p>Comment: {{ comment }}</p>
-        </div>
 </body>
 </html>
 

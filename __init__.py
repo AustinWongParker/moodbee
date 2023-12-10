@@ -1,8 +1,22 @@
-from flask import Flask, render_template, url_for, redirect, session, request
+from flask import Flask, render_template, url_for, redirect, session, request, jsonify
 from flask_login import LoginManager, UserMixin
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 app.secret_key = 'dev'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'  # Use SQLite for simplicity
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String(200), nullable=False)
+
+@app.route('/testingPage')
+def query_comments():
+    comments = Comment.query.all()
+    return render_template('testingPage.html', comments=comments)
 
 class User(UserMixin):
     def __init__(self, name, id, active=True):
@@ -53,37 +67,30 @@ def testingPage():
 def login():
     return render_template('login.html')
 
-@app.route('/post-comment', methods=['POST'])
-def post_comment():
-    selected_image = request.form.get('selected-image')
-    comment = request.form.get('comment')
+'''
+@app.route('/handle_data', methods=['GET', 'POST'])
+def handle_data():
+    return 'hi'
+'''
 
-    # Store the data in the session
-    session['selected_image'] = selected_image
-    session['comment'] = comment
+@app.route('/submit', methods=['POST'])
+def submit():
+    try:
+        data = request.json
+        comment_content = data.get('comment')
 
-    # Redirect back to the page with the form
-    return redirect(url_for('display_comment'))
+        # Create a new Comment object
+        new_comment = Comment(content=comment_content)
 
-@app.route('/display_comment', methods=['POST', 'GET'])
-def display_comment():
-    if request.method == 'POST':
-        selected_image = request.form.get('selected_image')
-        comment = request.form.get('comment')
+        # Add the new comment to the database
+        db.session.add(new_comment)
+        db.session.commit()
 
-        # Store the data in the session
-        session['selected_image'] = selected_image
-        session['comment'] = comment
-
-        # Redirect to the same page to prevent resubmission on page refresh
-        return redirect(url_for('display_comment'))
-
-    # If it's a GET request or after form submission, display the stored data
-    selected_image = session.get('selected_image')
-    comment = session.get('comment')
-
-    return render_template('display_comment.html', selected_image=selected_image, comment=comment)
-
+        return jsonify({'success': True, 'comment': new_comment.content})
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)})
+    
 
 if __name__ == '__main__':
+    db.create_all()
     app.run(debug=True)
