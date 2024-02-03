@@ -9,31 +9,57 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'  # Use SQLite for si
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
+class selectedImage(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    filename = db.Column(db.String(255), nullable=False)
+    # Add more fields as needed
+    selected = db.Column(db.Boolean, default=False)
+
+    def __repr__(self):
+        return f"Image(id={self.id}, filename={self.filename})"
+
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(200), nullable=False)
 
+class Emotion(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    emotion = db.Column(db.String(200), nullable=False)
+
+
+
 @app.route('/testingPage')
-def query_comments():
+def test_query_comments():
     comments = Comment.query.all()
     return render_template('testingPage.html', comments=comments)
 
-class User(UserMixin):
-    def __init__(self, name, id, active=True):
-        self.name = name
-        self.id = id
-        self.active = active
+@app.route('/track')
+def query_comments():
+    comments = Comment.query.all()
+    return render_template('track.html', comments=comments)
 
-    def is_active(self):
-        # Here you should write whatever the code is
-        # that checks the database if your user is active
-        return self.active
+@app.route('/track')
+def query_emotion():
+    Emotions = Emotion.query.all()
+    return render_template('track.html', Emotions=Emotions)
 
-    def is_anonymous(self):
-        return False
+@app.route('/select_image', methods=['POST'])
+def select_image():
+    image_id = request.json.get('image_id')
+    selected_image = selectedImage.query.get(image_id)
 
-    def is_authenticated(self):
-        return True
+    if selected_image:
+        # Mark the selected image as selected
+        selected_image.selected = True
+        db.session.commit()
+
+        # Unselect all other images
+        selectedImage.query.filter(selectedImage.id != image_id).update({selectedImage.selected: False})
+        db.session.commit()
+
+        return jsonify({'success': True, 'message': 'Image selected successfully'})
+    else:
+        return jsonify({'success': False, 'message': 'Image not found'}), 404
 
 @app.route('/')
 def hello_world():
@@ -66,12 +92,6 @@ def testingPage():
 @app.route('/login')
 def login():
     return render_template('login.html')
-
-'''
-@app.route('/handle_data', methods=['GET', 'POST'])
-def handle_data():
-    return 'hi'
-'''
 
 @app.route('/submit', methods=['POST'])
 def submit():

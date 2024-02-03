@@ -15,16 +15,30 @@
     {% endfor %}
 </ul>
 
-<form id="myForm" action="/submit" method="post">
+<div>
+    {% for image in images %}
+        <li>{{ emotion.content }}</li>
+    {% endfor %}
+</div>
+
+<form id="myCommentForm" action="/submit" method="post">
     <label for="comment">Comment:</label>
     <textarea id="comment" name="comment" rows="4" cols="50"></textarea>
     <br>
-    <button type="button" class="btn btn-primary" onclick="submitForm()">Submit</button>
+    <button type="button" class="btn btn-primary" onclick="submitCommentForm()">Submit for comment</button>
 </form>
 
+<form id="myEmotionForm" action="/submit" method="post">
+    <label for="emotion">emotion:</label>
+    <textarea id="emotion" name="emotion" rows="4" cols="50"></textarea>
+    <br>
+    <button type="button" class="btn btn-primary" onclick="submitEmotionForm()">Submit for emotion</button>
+</form>
+
+<br> <!-- space on html page-->
+
 <script>
-    function submitForm() {
-        var form = document.getElementById('myForm');
+    function submitCommentForm() {
         var comment = document.getElementById('comment').value;
 
         fetch('/submit', {
@@ -50,7 +64,44 @@
         });
     }
 
+    function submitEmotionForm() {
+        var emotion = document.getElementById('emotion').value;
+
+        fetch('/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ emotion: emotion }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('Form submitted successfully');
+                console.log('Submitted emotion:', emotion);
+                // Refresh the comments on success
+                fetchEmotions();
+            } else {
+                console.error('Form submission failed');
+            }
+        })
+        .catch(error => {
+            console.error('Error during form submission:', error);
+        });
+    }
+
     function fetchComments() {
+        fetch('/')
+        .then(response => response.text())
+        .then(html => {
+            document.body.innerHTML = new DOMParser().parseFromString(html, 'text/html').body.innerHTML;
+        })
+        .catch(error => {
+            console.error('Error fetching comments:', error);
+        });
+    }
+
+    function fetchEmotions() {
         fetch('/')
         .then(response => response.text())
         .then(html => {

@@ -1,0 +1,3 @@
+1. sqlite:///site.db 
+    - This is the actual URI for the sql db. Database file is named site.db
+    - /// indicates relative path to current working directory

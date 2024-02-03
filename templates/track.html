@@ -53,7 +53,7 @@
                 </a>
             </div>
 
-            <!-- Comment box -->
+            <!-- Comment box
             <div class="my-4">
                 <form id="form-id-awp" action="{{ url_for('submit') }}" method="POST">
                     <div class="form-group">
@@ -66,7 +66,24 @@
                     </div>
                     <button type="button" class="btn btn-primary" onclick="submitForm()">Submit</button>
                 </form>
-            </div>
+            </div> -->
+
+            <div class="my-4">
+            <form id="myForm" action="/submit" method="post">
+                <label for="comment">Comment:</label>
+                <textarea id="comment" name="comment" rows="4" cols="50"></textarea>
+                <br>
+                <button type="button" class="btn btn-primary" onclick="submitForm()">Submit for comment</button>
+            </form>
+        </div>
+
+            <h1>Comments</h1>
+
+            <ul>
+                {% for comment in comments %}
+                    <li>{{ comment.content }}</li>
+                {% endfor %}
+            </ul>
 
         </div>
     </div> 
@@ -93,30 +110,11 @@
             imageLink.classList.add('selected-image-border');
         }
 
-
-        /*
-        function submitForm() {
-
-            var form = document.getElementById("form-id-awp");
-
-            document.getElementById("selected-image").addEventListener("click", function () {
-            form.submit();
-            });
-
-            document.getElementById("comment").addEventListener("click", function () {
-            form.submit();
-            });
-
-            console.log("Selected Image: " + selectedImage);
-            console.log("Comment: " + comment.value);
-
-        }
-        */
-
         function submitForm() {
         // Get the form and comment values
-        var form = document.getElementById('form-id-awp');
+        var form = document.getElementById('myForm');
         var comment = document.getElementById('comment').value;
+        var emotion = document.getElementById('emotion').value;
 
         // Use Fetch API to send the form data to the server
         fetch('/submit', {
@@ -126,10 +124,13 @@
             },
             body: JSON.stringify({ comment: comment }),
         })
-        .then(response => {
-            if (response.ok) {
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
                 console.log('Form submitted successfully');
-                // Optionally, you can redirect or perform other actions on success
+                console.log('Submitted Comment:', comment);
+                // Refresh the comments on success
+                fetchComments();
             } else {
                 console.error('Form submission failed');
             }
