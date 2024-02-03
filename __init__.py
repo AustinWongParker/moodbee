@@ -33,6 +33,10 @@ def test_query_comments():
     comments = Comment.query.all()
     return render_template('testingPage.html', comments=comments)
 
+@app.route('/testingPage2')
+def testingPage():
+    return render_template('testingPage2.html')
+
 @app.route('/track')
 def query_comments():
     comments = Comment.query.all()
@@ -85,10 +89,6 @@ def contactus():
 def howitworks():
     return render_template('How_it_works.html')
 
-@app.route('/testingpage')
-def testingPage():
-    return render_template('testingPage.html')
-
 @app.route('/login')
 def login():
     return render_template('login.html')
@@ -112,5 +112,5 @@ def submit():
     
 
 if __name__ == '__main__':
-    db.create_all()
-    app.run(debug=True)
+    db.create_all() #sqlalchemy
+    app.run(debug=True) #python flask

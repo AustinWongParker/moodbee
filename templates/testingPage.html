@@ -1,117 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comments</title>
-</head>
-<body>
+  {% extends "base.html" %} {% block title %}Track{% endblock %} {% block
+  content %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Selector</title>
+    <style>
+      body {
+        animation: fadeIn 3s ease-in-out forwards; /* Change animation duration to 3s */
+      }
+      .selectable-image {
+        cursor: pointer;
+      }
+      .mt-custom {
+        margin-top: 6rem;
+      }
+      .page-container {
+        margin: 0 100px; /* Adjust the margin values as needed */
+      }
+      .selected {
+        border: 2px solid rgb(255, 145, 0);
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-container">
+      <div class="mt-custom">
+        <div class="image-container d-flex justify-content-around">
+          <img
+            src="/static/mad1.png"
+            class="selectable-image"
+            onclick="selectImage(this)"
+          />
+          <img
+            src="/static/upset2.png"
+            class="selectable-image"
+            onclick="selectImage(this)"
+          />
+          <img
+            src="/static/neutral3.png"
+            class="selectable-image"
+            onclick="selectImage(this)"
+          />
+          <img
+            src="/static/happy4.png"
+            class="selectable-image"
+            onclick="selectImage(this)"
+          />
+          <img
+            src="/static/great5.png"
+            class="selectable-image"
+            onclick="selectImage(this)"
+          />
+        </div>
+      </div>
+    </div>
 
-<h1>Comments</h1>
+    <!-- Javascript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-<ul>
-    {% for comment in comments %}
-        <li>{{ comment.content }}</li>
-    {% endfor %}
-</ul>
+    <script>
+      function selectImage(selectedImg) {
+        // Toggle the 'selected' class for the clicked image
+        selectedImg.classList.toggle("selected");
+      }
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var body = document.querySelector("body");
+        body.style.opacity = "1"; // Set opacity to 1 after the page is loaded
 
-<div>
-    {% for image in images %}
-        <li>{{ emotion.content }}</li>
-    {% endfor %}
-</div>
-
-<form id="myCommentForm" action="/submit" method="post">
-    <label for="comment">Comment:</label>
-    <textarea id="comment" name="comment" rows="4" cols="50"></textarea>
-    <br>
-    <button type="button" class="btn btn-primary" onclick="submitCommentForm()">Submit for comment</button>
-</form>
-
-<form id="myEmotionForm" action="/submit" method="post">
-    <label for="emotion">emotion:</label>
-    <textarea id="emotion" name="emotion" rows="4" cols="50"></textarea>
-    <br>
-    <button type="button" class="btn btn-primary" onclick="submitEmotionForm()">Submit for emotion</button>
-</form>
-
-<br> <!-- space on html page-->
-
-<script>
-    function submitCommentForm() {
-        var comment = document.getElementById('comment').value;
-
-        fetch('/submit', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ comment: comment }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                console.log('Form submitted successfully');
-                console.log('Submitted Comment:', comment);
-                // Refresh the comments on success
-                fetchComments();
-            } else {
-                console.error('Form submission failed');
-            }
-        })
-        .catch(error => {
-            console.error('Error during form submission:', error);
-        });
-    }
-
-    function submitEmotionForm() {
-        var emotion = document.getElementById('emotion').value;
-
-        fetch('/submit', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ emotion: emotion }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                console.log('Form submitted successfully');
-                console.log('Submitted emotion:', emotion);
-                // Refresh the comments on success
-                fetchEmotions();
-            } else {
-                console.error('Form submission failed');
-            }
-        })
-        .catch(error => {
-            console.error('Error during form submission:', error);
-        });
-    }
-
-    function fetchComments() {
-        fetch('/')
-        .then(response => response.text())
-        .then(html => {
-            document.body.innerHTML = new DOMParser().parseFromString(html, 'text/html').body.innerHTML;
-        })
-        .catch(error => {
-            console.error('Error fetching comments:', error);
-        });
-    }
-
-    function fetchEmotions() {
-        fetch('/')
-        .then(response => response.text())
-        .then(html => {
-            document.body.innerHTML = new DOMParser().parseFromString(html, 'text/html').body.innerHTML;
-        })
-        .catch(error => {
-            console.error('Error fetching comments:', error);
-        });
-    }
-</script>
-
-</body>
+        // Optional: You can add a delay before fading in
+        // setTimeout(function() {
+        //   body.style.opacity = '1';
+        // }, 500); // Delay in milliseconds (e.g., 500 milliseconds)
+      });
+    </script>
+  </body>
 </html>
+
+{% endblock %}
