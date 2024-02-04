@@ -1,0 +1,2 @@
+1. database information is in database.db
+2. database table name is mood_table

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  {% extends "base.html" %} 
+  {% block title %}show everything in db{% endblock %} 
+  {% block content %}
+  <head>
+    <title>show all db entries</title>
+  </head>
+  <body>
+    {% for item in all_data %}
+    <!-- all_data variable name must match the same one used in __init__.py - all_data -->
+    <p>{{ item }}</p>
+    {% endfor %}
+    <p>
+        hello
+    </p>
+  </body>
+</html>
+
+{% endblock %}
