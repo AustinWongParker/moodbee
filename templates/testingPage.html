@@ -1,93 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
-  {% extends "base.html" %} {% block title %}Track{% endblock %} {% block
-  content %}
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Image Selector</title>
-    <style>
-      body {
-        animation: fadeIn 3s ease-in-out forwards; /* Change animation duration to 3s */
-      }
-      .selectable-image {
-        cursor: pointer;
-      }
-      .mt-custom {
-        margin-top: 6rem;
-      }
-      .page-container {
-        margin: 0 100px; /* Adjust the margin values as needed */
-      }
-      .selected {
-        border: 2px solid rgb(255, 145, 0);
-      }
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
-    </style>
+    <title>show all db entries</title>
   </head>
   <body>
-    <div class="page-container">
-      <div class="mt-custom">
-        <div class="image-container d-flex justify-content-around">
-          <img
-            src="/static/mad1.png"
-            class="selectable-image"
-            onclick="selectImage(this)"
-          />
-          <img
-            src="/static/upset2.png"
-            class="selectable-image"
-            onclick="selectImage(this)"
-          />
-          <img
-            src="/static/neutral3.png"
-            class="selectable-image"
-            onclick="selectImage(this)"
-          />
-          <img
-            src="/static/happy4.png"
-            class="selectable-image"
-            onclick="selectImage(this)"
-          />
-          <img
-            src="/static/great5.png"
-            class="selectable-image"
-            onclick="selectImage(this)"
-          />
-        </div>
-      </div>
-    </div>
-
-    <!-- Javascript -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <script>
-      function selectImage(selectedImg) {
-        // Toggle the 'selected' class for the clicked image
-        selectedImg.classList.toggle("selected");
-      }
-    </script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        var body = document.querySelector("body");
-        body.style.opacity = "1"; // Set opacity to 1 after the page is loaded
-
-        // Optional: You can add a delay before fading in
-        // setTimeout(function() {
-        //   body.style.opacity = '1';
-        // }, 500); // Delay in milliseconds (e.g., 500 milliseconds)
-      });
-    </script>
+    {% for item in all_data %}
+    <p>
+        {{ item }}
+    </p>
+    {% endfor %}
   </body>
 </html>
-
-{% endblock %}

@@ -1,81 +1,53 @@
-from flask import Flask, render_template, url_for, redirect, session, request, jsonify
-from flask_login import LoginManager, UserMixin
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
+from flask import Flask, render_template, url_for, redirect, session, request, jsonify, g
+from .configuration_key import SECRET_KEY
+from datetime import datetime
+
+import sqlite3
 
 app = Flask(__name__)
-app.secret_key = 'dev'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'  # Use SQLite for simplicity
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
 
-class selectedImage(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    filename = db.Column(db.String(255), nullable=False)
-    # Add more fields as needed
-    selected = db.Column(db.Boolean, default=False)
+ALLOWED_IMAGE_NAMES = {'great5.png', 'happy4.png', 'neutral3.png', 'upset2.png', 'mad1.png'} # from static pngs
 
-    def __repr__(self):
-        return f"Image(id={self.id}, filename={self.filename})"
+'''
+Database
+'''
+app.secret_key = SECRET_KEY
 
-class Comment(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.String(200), nullable=False)
+def get_db():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = sqlite3.connect('test-database.db') # establish connection
+        cursor = db.cursor()
+        cursor.execute('SELECT * FROM test_mood_table')
+        all_data = cursor.fetchall()
+        #all_data = [str(val[0] for val in all_data)]
+    return all_data
 
-class Emotion(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    emotion = db.Column(db.String(200), nullable=False)
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
 
-
-
-@app.route('/testingPage')
-def test_query_comments():
-    comments = Comment.query.all()
-    return render_template('testingPage.html', comments=comments)
-
-@app.route('/testingPage2')
-def testingPage():
-    return render_template('testingPage2.html')
-
-@app.route('/track')
-def query_comments():
-    comments = Comment.query.all()
-    return render_template('track.html', comments=comments)
-
-@app.route('/track')
-def query_emotion():
-    Emotions = Emotion.query.all()
-    return render_template('track.html', Emotions=Emotions)
-
-@app.route('/select_image', methods=['POST'])
-def select_image():
-    image_id = request.json.get('image_id')
-    selected_image = selectedImage.query.get(image_id)
-
-    if selected_image:
-        # Mark the selected image as selected
-        selected_image.selected = True
-        db.session.commit()
-
-        # Unselect all other images
-        selectedImage.query.filter(selectedImage.id != image_id).update({selectedImage.selected: False})
-        db.session.commit()
-
-        return jsonify({'success': True, 'message': 'Image selected successfully'})
-    else:
-        return jsonify({'success': False, 'message': 'Image not found'}), 404
-
+'''
+Routes
+'''
 @app.route('/')
 def hello_world():
     return render_template('home.html')
 
-@app.route('/home', methods = ['GET','POST'])
+@app.route('/home')
 def home():
     return render_template('home.html')
 
 @app.route('/track')
 def track():
-    return render_template('track.html')
+    data = get_db()
+    return render_template('track.html', all_data=data)
+
+@app.route('/track-welcome')
+def track_welcome():
+    return render_template('track-welcome.html')
 
 @app.route('/about')
 def about():
@@ -93,24 +65,68 @@ def howitworks():
 def login():
     return render_template('login.html')
 
-@app.route('/submit', methods=['POST'])
+@app.route('/thank-you')
+def thankyou():
+    return render_template('thankyou.html')
+
+'''
+mood and comment routes; track -> submit
+'''
+@app.route('/submit-comment', methods = ['POST']) # the first parameter in the app.route decorator needs to be the form action="THIS HERE" name
 def submit():
-    try:
-        data = request.json
-        comment_content = data.get('comment')
+    if request.method == 'POST':
+        submit_comment = request.form['comment']
+        submit_image = request.form['selectedImage']
+        cleaned_image_name = __extract_image_name(submit_image)
+        #------------------------------------------------------------------------------
+        # Table Diagram
+        #       emotion_id   |   user_id   |   selectedImage   |   comment   |   date 
+        #           x               x               x                 x            x
+        #           x               x               x                 x            x             
+        #           x               x               x                 x            x
+        #           x               x               x                 x            x
+        #------------------------------------------------------------------------------
+        data = (None, None, cleaned_image_name, submit_comment, datetime.now())
+        db = g._database = sqlite3.connect('test-database.db') # establish connection
+        cursor = db.cursor()
+        
+        # Insert the new comment into the 'comments' table
+        cursor.execute('INSERT INTO test_mood_table (emotion_id, user_id, selectedImage, comment, date) VALUES (?,?,?,?,?)', data)
+        db.commit()
+        db.close()
 
-        # Create a new Comment object
-        new_comment = Comment(content=comment_content)
+        # Redirect to the index page after submitting the comment
+        return render_template('thankyou.html')
 
-        # Add the new comment to the database
-        db.session.add(new_comment)
-        db.session.commit()
+'''
+Testing 
+'''
+@app.route('/testingPage')
+def testingPage():
+    return render_template('testingPage.html')
 
-        return jsonify({'success': True, 'comment': new_comment.content})
-    except Exception as e:
-        return jsonify({'success': False, 'error': str(e)})
-    
+@app.route('/testingPage2')
+def testingPagetwo():
+    return render_template('testingPage2.html')
+
+@app.route('/show-all-db')
+def testDatabase():
+    data = get_db()
+    return render_template('show-all-db.html', all_data=data)
+
+
+'''
+Helper functions
+'''
+def __extract_image_name(submit_image):
+    # Get the filename part from the path
+    _, filename = submit_image.rsplit('/', 1)
+
+    # Check if the filename is in the allowed set
+    if filename in ALLOWED_IMAGE_NAMES:
+        return filename
+    else:
+        return None  # Not an allowed image
 
 if __name__ == '__main__':
-    db.create_all() #sqlalchemy
     app.run(debug=True) #python flask

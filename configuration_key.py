@@ -1,0 +1,3 @@
+# DO NOT SHARE SECRET SHARE
+
+SECRET_KEY = 'gdsfGFDH356264^$#^DsfgdfhdH#%@%^@'

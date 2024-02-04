@@ -1,156 +1,123 @@
 <!DOCTYPE html>
-<html>
-    {% extends "base.html" %}
-    {% block title %}Track{% endblock %}
-    {% block content %}
-<head>
-    <!-- ... (other head elements) ... -->
+<html lang="en">
+  {% extends "base.html" %} {% block title %}Track{% endblock %} {% block
+  content %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Selector</title>
     <style>
-        .selected-image-border {
-            border: 3px solid red; /* Customize the border color and size as desired */
+      body {
+        animation: fadeIn 2s ease-in-out forwards; /* Change animation duration to 3s */
+        font-family: Arial, sans-serif;
+        text-align: center;
+      }
+      p {
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+      form {
+        display: inline-block;
+        text-align: left; /* Align the form elements to the left within the inline block */
+        margin-top: 0px; /* Add margin to the top of the form */
+      }
+      .text-container {
+        margin-top: 100px
+      }
+      .selectable-image {
+        cursor: pointer;
+      }
+      .mt-custom {
+        margin-top: 6rem;
+      }
+      .page-container {
+        margin: 0 100px; /* Adjust the margin values as needed */
+      }
+      .selected {
+        border: 2px solid rgb(255, 145, 0);
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
         }
-        .mt-custom {
-            margin-top: 6rem; /* Adjust the value to your desired margin (e.g., 6rem, 10rem, etc.) */
+        to {
+          opacity: 1;
         }
-        /* Add margins on both sides of the page */
-        .page-container {
-            margin: 0 100px; /* Adjust the margin values as needed */
-        }
-
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="page-container">
-        <div class="mt-custom">
-            <nav class="navbar navbar-expand-sm fixed-top navbar-light mb-3">
-                <!-- Your navbar content here -->
-            </nav>
-
-            <div class="image-container d-flex justify-content-around">
-                <!-- Image 1 with custom URL (using JavaScript to handle redirection) -->
-                <a href="#" class="select-image" data-image="mad1.png">
-                    <img src="/static/mad1.png" alt="mad" class="img-fluid">
-                </a>
-
-                <!-- Image 2 -->
-                <a href="#" class="select-image" data-image="upset2.png">
-                    <img src="/static/upset2.png" alt="upset" class="img-fluid">
-                </a>
-
-                <!-- Image 3 -->
-                <a href="#" class="select-image" data-image="neutral3.png">
-                    <img src="/static/neutral3.png" alt="neutral" class="img-fluid">
-                </a>
-
-                <!-- Image 4 -->
-                <a href="#" class="select-image" data-image="happy4.png">
-                    <img src="/static/happy4.png" alt="happy" class="img-fluid">
-                </a>
-
-                <!-- Image 5 -->
-                <a href="#" class="select-image" data-image="great5.png">
-                    <img src="/static/great5.png" alt="great" class="img-fluid">
-                </a>
-            </div>
-
-            <!-- Comment box
-            <div class="my-4">
-                <form id="form-id-awp" action="{{ url_for('submit') }}" method="POST">
-                    <div class="form-group">
-                        <label for="selected_image">Selected Image:</label>
-                        <input type="text" class="form-control" id="selected-image" name="selected_image">
-                    </div>
-                    <div class="form-group">
-                        <label for="comment">Add a Comment:</label>
-                        <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
-                    </div>
-                    <button type="button" class="btn btn-primary" onclick="submitForm()">Submit</button>
-                </form>
-            </div> -->
-
-            <div class="my-4">
-            <form id="myForm" action="/submit" method="post">
-                <label for="comment">Comment:</label>
-                <textarea id="comment" name="comment" rows="4" cols="50"></textarea>
-                <br>
-                <button type="button" class="btn btn-primary" onclick="submitForm()">Submit for comment</button>
-            </form>
+      <div class="mt-custom">
+        <div class="image-container d-flex justify-content-around">
+          <form action="/submit-comment" method="post">
+          <img
+            src="/static/mad1.png"
+            class="selectable-image"
+            onclick="selectImage(this)"
+          />
+          <img
+            src="/static/upset2.png"
+            class="selectable-image"
+            onclick="selectImage(this)"
+          />
+          <img
+            src="/static/neutral3.png"
+            class="selectable-image"
+            onclick="selectImage(this)"
+          />
+          <img
+            src="/static/happy4.png"
+            class="selectable-image"
+            onclick="selectImage(this)"
+          />
+          <img
+            src="/static/great5.png"
+            class="selectable-image"
+            onclick="selectImage(this)"
+          />
         </div>
+        <input type="hidden" id="selectedImage" name="selectedImage" value="">
+        <div class="text-container">
+        <p>Describe how you are feeling</p>
+      </div>
+        <textarea id="comment" name="comment" rows="4" cols="50" placeholder="Type your comment here..."></textarea>
+        <br>
+        <input type="submit" value="Submit">
+      </div>
+    </div>
+    </form>
 
-            <h1>Comments</h1>
+    <!-- TESTING -->
+    <head>
+      <p>TESTING FOR DB</p>
+    </head>
+    {% for item in all_data %}
+    <!-- all_data variable name must match the same one used in __init__.py - all_data -->
+    <p>{{ item }}</p>
+    {% endfor %}
 
-            <ul>
-                {% for comment in comments %}
-                    <li>{{ comment.content }}</li>
-                {% endfor %}
-            </ul>
+    <!-- Javascript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-        </div>
-    </div> 
-
-    <!-- Your scripts and libraries here -->
     <script>
-        // JavaScript code to handle image selection and form submission
-        let selectedImage = null; // Initialize the variable to store the selected image
-
-        function selectImage(imageLink) {
-            // Get all image links and remove the 'selected-image-border' class
-            var allImageLinks = document.querySelectorAll('.select-image');
-            allImageLinks.forEach(function(link) {
-                link.classList.remove('selected-image-border');
-            });
-
-            // Get the data-image attribute value
-            selectedImage = imageLink.getAttribute('data-image');
-
-            // Update the selected image value in the comment box
-            document.getElementById('selected-image').value = selectedImage;
-
-            // Add the 'selected-image-border' class to the clicked image link
-            imageLink.classList.add('selected-image-border');
-        }
-
-        function submitForm() {
-        // Get the form and comment values
-        var form = document.getElementById('myForm');
-        var comment = document.getElementById('comment').value;
-        var emotion = document.getElementById('emotion').value;
-
-        // Use Fetch API to send the form data to the server
-        fetch('/submit', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ comment: comment }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                console.log('Form submitted successfully');
-                console.log('Submitted Comment:', comment);
-                // Refresh the comments on success
-                fetchComments();
-            } else {
-                console.error('Form submission failed');
-            }
-        })
-        .catch(error => {
-            console.error('Error during form submission:', error);
-        });
-    }
-
-
-
-        document.querySelectorAll('.select-image').forEach(function(imageLink) {
-            imageLink.addEventListener('click', function(event) {
-                event.preventDefault(); // Prevent the link from navigating
-                selectImage(this);
-            });
+      function selectImage(selectedImg) {
+        // Remove the 'selected' class from all images
+        var allImages = document.querySelectorAll(".selectable-image");
+        allImages.forEach(function (img) {
+          img.classList.remove("selected");
         });
 
+        // Add the 'selected' class to the clicked image
+        selectedImg.classList.add("selected");
+
+        // Set the selected image's source as the value of the hidden input
+        document.getElementById("selectedImage").value = selectedImg.src;
+      }
     </script>
-</body>
+  </body>
 </html>
 
 {% endblock %}
