@@ -104,12 +104,9 @@ def register():
         )
     ''')
     
-    print('test')
     
     if request.method == 'POST':
-        print('test2')
         email = request.form['email']
-        print('test3')
         password = request.form['password']
 
         # Check if the user already exists
@@ -146,23 +143,19 @@ def login():
         )
     ''')
     
-    print('test1')
     if request.method == 'POST':
-        print('test2')
-        data = request.json
-        json.dumps(data)
-        print(data)
         email = request.form['email']
-        print('test3')
         password = request.form['password']
-        print('test4')
         # Retrieve the user from the database
         cursor.execute('SELECT * FROM test_user_credential_table WHERE email = ?', (email,))
-        existing_email = cursor.fetchone()
+        user_info = cursor.fetchone()
                 
-        if existing_email[2] == email:
-            if existing_email[3] == password:
-                return "Login successful!"
+        if user_info[2] == email:
+            if user_info[3] == password:
+                #currently using email in place of the user_id
+                user = user_info[2]
+                session["user"] = user
+                return render_template('home.html')
             else:
                 return "Invalid email or password"
 
@@ -171,32 +164,44 @@ def login():
 '''
 mood and comment routes; track -> submit
 '''
+
+@app.route("/logout")
+def logout():
+    session.pop("user", None)
+    return render_template('home.html')
+
 @app.route('/submit-comment', methods = ['POST']) # the first parameter in the app.route decorator needs to be the form action="THIS HERE" name
 def submit():
-    if request.method == 'POST':
-        submit_comment = request.form['comment']
-        submit_image = request.form['selectedImage']
-        cleaned_image_name = __extract_image_name(submit_image)
-        #------------------------------------------------------------------------------
-        # Table Diagram
-        #       emotion_id   |   user_id   |   selectedImage   |   comment   |   date 
-        #           x               x               x                 x            x
-        #           x               x               x                 x            x             
-        #           x               x               x                 x            x
-        #           x               x               x                 x            x
-        #------------------------------------------------------------------------------
-        data = (None, None, cleaned_image_name, submit_comment, datetime.now())
-        db = g._database = sqlite3.connect('test-database.db') # establish connection
-        cursor = db.cursor()
-        
-        # Insert the new comment into the 'comments' table
-        cursor.execute('INSERT INTO test_mood_table (emotion_id, user_id, selectedImage, comment, date) VALUES (?,?,?,?,?)', data)
-        db.commit()
-        db.close()
+    if "user" in session:
+        if request.method == 'POST':
+            if cleaned_image_name != NULL:
+                submit_comment = request.form['comment']
+                submit_image = request.form['selectedImage']
+                #need to add error check to see if user selected the image
+                cleaned_image_name = __extract_image_name(submit_image)
+                #------------------------------------------------------------------------------
+                # Table Diagram
+                #       emotion_id   |   user_id   |   selectedImage   |   comment   |   date 
+                #           x               x               x                 x            x
+                #           x               x               x                 x            x             
+                #           x               x               x                 x            x
+                #           x               x               x                 x            x
+                #------------------------------------------------------------------------------
+                data = (None, None, cleaned_image_name, submit_comment, datetime.now())
+                db = g._database = sqlite3.connect('test-database.db') # establish connection
+                cursor = db.cursor()
+                
+                # Insert the new comment into the 'comments' table
+                cursor.execute('INSERT INTO test_mood_table (emotion_id, user_id, selectedImage, comment, date) VALUES (?,?,?,?,?)', data)
+                db.commit()
+                db.close()
 
-        # Redirect to the index page after submitting the comment
-        return render_template('thankyou.html')
-
+                # Redirect to the index page after submitting the comment
+                return render_template('thankyou.html')
+            else:
+                return "please select a mood"
+    else:
+        return render_template('login.html')
 '''
 Testing 
 '''
