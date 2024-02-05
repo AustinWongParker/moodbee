@@ -1,0 +1,14 @@
+#!/usr/bin/bash bash
+
+# Exit on error
+set -e
+
+# Activate the virtual environment
+source .venv/bin/activate
+
+# Export Flask environment variables
+export FLASK_APP=__init__.py
+export FLASK_DEBUG=1
+
+# Run the Flask application
+flask run

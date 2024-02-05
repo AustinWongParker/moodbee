@@ -1,0 +1,5 @@
+alembic==1.13.1
+Flask==2.2.2
+flask_login==0.6.3
+SQLAlchemy==1.4.39
+Werkzeug<3.0.0 # flask_login is currently incompatible with Werkzeug>=3.0.0

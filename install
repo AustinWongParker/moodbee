@@ -1,0 +1,14 @@
+#!/usr/bin/bash bash
+
+# Exit on error
+set -e
+
+# Install virtualenv for managing virtual environments
+pip install virtualenv
+
+# Create and activate a new virtual environment
+virtualenv .venv
+source .venv/bin/activate
+
+# Install the project's dependencies in the virtual environment
+pip install -r requirements.txt --no-warn-script-location
