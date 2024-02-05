@@ -105,31 +105,32 @@
 
     
 <main class="w-50 m-auto" style="margin-top: 15px !important;">
-  <form action="login" method="post">
-    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+  <form action="register" method="post">
+    <h1 class="h3 mb-3 fw-normal">Please register</h1>
     <div class="form-floating">
       <label for="email" style="display: block;">Email address</label>
-      <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
+      <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
     </div>
     <br>
     <div class="form-floating">
       <label for="floatingPassword style="margin: auto;">Password</label>
-      <input type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
+      <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password" required>
     </div>
 
-    <div class="form-check text-start my-3">
-      <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
-      <label class="form-check-label" for="flexCheckDefault">
-        Remember me
-      </label>
-    </div>
-    <button class="btn btn-warning w-50 py-2" type="submit" style="margin-left: 25% !important">Sign in</button>
+    <button class="btn btn-warning w-50 py-2" type="submit" style="margin-left: 25% !important">Register</button>
     <p class="mt-5 mb-3 text-body-secondary">© awp 2023</p>
   </form>
 </main>
 <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 
-    
+  <!-- TESTING -->
+  <head>
+    <p>TESTING FOR DB</p>
+  </head>
+  {% for item in all_data_register %}
+  <!-- all_data variable name must match the same one used in __init__.py - all_data -->
+  <p>{{ item }}</p>
+  {% endfor %}   
 
 <div data-lastpass-root="" style="position: absolute !important; top: 0px !important; left: 0px !important; height: 0px !important; width: 0px !important;"><div data-lastpass-infield="true" style="position: absolute !important; top: 0px !important; left: 0px !important;"></div></div></body></html>
 {% endblock %}
