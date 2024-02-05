@@ -36,3 +36,8 @@ Please see the `install` and `run` scripts for details.
 ### Modifying Dependencies
 All changes to the dependencies list must be reflected in `requirements.txt`.
 The [`pipreqs`](https://pypi.org/project/pipreqs/) utility allows for a new dependencies list to be generated automatically, but changes must still be manually reviewed.
+
+Before adding a dependency using `pip install`, you must first activate the virtual environment:
+```bash
+bash source .venv/bin/activate
+```
