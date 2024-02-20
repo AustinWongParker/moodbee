@@ -51,6 +51,7 @@ brown | #1c1b1a
         color: #1c1b1a;
         text-decoration: none;
         font-weight: bold;
+        font-size: 14px; /* Adjust the font size as needed */
     }
 
     .navbar-light {
@@ -62,15 +63,15 @@ brown | #1c1b1a
 
 <body>
     <nav class="navbar navbar-expand-sm navbar-light">
-        <div class="container-fluid"> <!-- Use container-fluid to extend the navbar to the ends of the screen -->
+        <div class="container-fluid">
             <a href="/home">
-            <img src="static\Moodbee_Logo-01.png" alt="moodbee_logo" style="width: 4em; height: 4em" /> 
+                <img src="static\Moodbee_Logo-01.png" alt="moodbee_logo" style="width: 4em; height: 4em" /> 
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar1">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbar1">
-                <ul class="navbar-nav mr-auto"> <!-- Use mr-auto to push the nav items to the left -->
+                <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="/track-welcome">Track</a>
                     </li>
@@ -84,14 +85,17 @@ brown | #1c1b1a
                         <a class="nav-link" href="/contact-us">Contact Us</a>
                     </li>
                 </ul>
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav ml-auto"> <!-- Use ml-auto to push these items to the right -->
                     <li class="nav-item">
                         <a class="btn-signup" id="loginButton" href="/login">Log-in</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn-signup" id="loginButton" href="/register">Register</a>
                     </li>
                 </ul>
             </div>
         </div>
-    </nav>    
+    </nav>
 
     {% block content %}
     {% endblock %}

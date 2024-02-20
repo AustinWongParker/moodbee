@@ -1,30 +1,41 @@
 import sqlite3
 
 # Connect to the SQLite database
-conn = sqlite3.connect('test-database.db')
+conn = sqlite3.connect('database.db')
 cursor = conn.cursor()
 
 # Check if the first table already exists
-cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='test_mood_table'")
+cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='Mood'")
 table1_exists = cursor.fetchone()
 
 # Check if the second table already exists
-cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='test_user_credential_table'")
+cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='UserCredential'")
 table2_exists = cursor.fetchone()
+
+# # Check if the second table already exists
+# cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='user_credential'")
+# table3_exists = cursor.fetchone()
 
 # If the first table does not exist, create it
 if not table1_exists:
-    cursor.execute("CREATE TABLE test_mood_table (emotion_id, user_id, selectedImage, comment, date)")
-    print("Table 'test_mood_table' created successfully")
+    cursor.execute("CREATE TABLE Mood (id, selectedImage, comment, date)")
+    print("Table 'Mood' created successfully")
 else:
-    print("Table 'test_mood_table' already exists")
+    print("Table 'Mood' already exists")
 
 # If the second table does not exist, create it
 if not table2_exists:
-    cursor.execute("CREATE TABLE test_user_credential_table (user_id, username, email, password)")
-    print("Table 'test_user_credential_table' created successfully")
+    cursor.execute("CREATE TABLE UserCredential (id, username, email, password)")
+    print("Table 'UserCredential' created successfully")
 else:
-    print("Table 'test_user_credential_table' already exists")
+    print("Table 'UserCredential' already exists")
+    
+# # If the second table does not exist, create it
+# if not table3_exists:
+#     cursor.execute("CREATE TABLE user_credential (user_id, username, email, password)")
+#     print("Table 'user_credential' created successfully")
+# else:
+#     print("Table 'user_credential' already exists")
 
 # Commit the changes and close the connection
 conn.commit()

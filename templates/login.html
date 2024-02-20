@@ -105,28 +105,26 @@
 
     
 <main class="w-50 m-auto" style="margin-top: 15px !important;">
-  <form action="login" method="post">
+  <form action="{{ url_for('login') }}" method="post">
+    {{ form.hidden_tag() }}
     <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
     <div class="form-floating">
-      <label for="email" style="display: block;">Email address</label>
-      <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
+      {{ form.username.label(for="email", style="display: block;") }}
+      {{ form.username(class="form-control", id="email", placeholder="name@example.com", required=True) }}
     </div>
     <br>
     <div class="form-floating">
-      <label for="floatingPassword style="margin: auto;">Password</label>
-      <input type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
+      {{ form.password.label(for="floatingPassword", style="margin: auto;") }}
+      {{ form.password(class="form-control", id="floatingPassword", placeholder="Password", required=True) }}
     </div>
 
-    <div class="form-check text-start my-3">
-      <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
-      <label class="form-check-label" for="flexCheckDefault">
-        Remember me
-      </label>
-    </div>
     <button class="btn btn-warning w-50 py-2" type="submit" style="margin-left: 25% !important">Sign in</button>
     <p class="mt-5 mb-3 text-body-secondary">© awp 2023</p>
   </form>
 </main>
+
+
 <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 
     
