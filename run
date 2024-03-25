@@ -1,0 +1,21 @@
+#!/usr/bin/bash bash
+
+# Exit on error
+set -e
+
+# Activate the virtual environment
+if test -d .venv/bin; then # (.venv/bin on Linux)
+  source .venv/bin/activate
+elif test -d .venv/Scripts; then # (.venv/Scripts on Windows)
+  source .venv/Scripts/activate
+else
+  echo "Expected .venv/bin or .venv/Scripts to exist"
+  exit 1
+fi
+
+# Export Flask environment variables
+export FLASK_APP=__init__.py
+export FLASK_DEBUG=1
+
+# Run the Flask application
+flask run
